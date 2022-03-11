@@ -1,6 +1,6 @@
 # Svelte Projects
 
-A list of simple Svelte projects.
+A list of Svelte ecosystem projects.
 
 
 ## Projects
