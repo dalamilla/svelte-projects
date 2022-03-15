@@ -1,33 +1,58 @@
 <script>
-  export let name;
+  let arrowSrc = 'images/arrow.png';
+  import Button from './components/Button.svelte';
+  import DollarForm from './components/DollarForm.svelte';
+  import CentsDetails from './components/CentsDetails.svelte';
+
+  let dollars = 0;
+  let cents = [
+    {type: 'Quarter', value: 25, quantity: 0},
+    {type: 'Dime', value: 10, quantity: 0},
+    {type: 'Nickel', value: 5, quantity: 0},
+    {type: 'Penny', value: 1, quantity: 0}
+  ];
+
+  function Convert() {
+    let totalCents = dollars * 100;
+
+    for (let i = 0; i < cents.length; i++) {
+      cents[i].quantity = Math.floor(totalCents / cents[i].value);
+      totalCents = totalCents % cents[i].value;
+    }
+  }
 </script>
 
-<main>
-  <h1>Hello {name}!</h1>
-  <p>
-    Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
-    how to build Svelte apps.
-  </p>
-</main>
+<div class="app">
+  <h1>Convertion</h1>
+  <div class="app-convert">
+    <DollarForm bind:dollars />
+    <img src={arrowSrc} class="app-convert-arrow" alt="arrow" />
+    <CentsDetails {cents} />
+  </div>
+  <Button on:click={Convert}>Convert</Button>
+</div>
 
 <style>
-  main {
+  .app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
+    border-radius: 10px;
+    width: 500px;
+    box-shadow: 0 20px 60px rgb(0 0 0 / 20%);
+    padding: 10px;
+    background-color: white;
   }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
+  .app-convert {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
   }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
+  .app-convert-arrow {
+    display: block;
+    align-self: center;
+    height: 30px;
+    width: 30px;
   }
 </style>
